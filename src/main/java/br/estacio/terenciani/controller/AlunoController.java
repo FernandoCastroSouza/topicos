@@ -17,46 +17,55 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class AlunoController {
-
-	@Autowired
-	AlunoRepository alunoRepository;
-	
-	@RequestMapping(value="/aluno", 
-			method=RequestMethod.GET)
-	public @ResponseBody List<Aluno> listarTodos() {
-		return this.alunoRepository.findAll();
-
-	}
-	
-	@RequestMapping(value="/aluno/{id}", 
-			method=RequestMethod.DELETE)
-	public @ResponseBody HttpStatus excluir(@PathVariable Long id){
-		try{
-			this.alunoRepository.delete(id);
-			return HttpStatus.OK;
-		} catch (Exception e) {
-			return HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-	}
+    
+    @Autowired
+    AlunoRepository alunoRepository;
+    
+    @RequestMapping(value = "/aluno",
+            method = RequestMethod.GET)
+    public @ResponseBody
+    List<Aluno> listarTodos() {
+        return this.alunoRepository.findAll();
         
-      
-	
-	@RequestMapping(value="/aluno", 
-			method=RequestMethod.POST, 
-                        consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Aluno adicionar(@RequestBody Aluno aluno){
-		return this.alunoRepository.save(aluno);
-	}
-        
-        /*
+    }
+    
+    @RequestMapping(value = "/aluno/{id}",
+            method = RequestMethod.DELETE)
+    public @ResponseBody
+    HttpStatus excluir(@PathVariable Long id) {
+        try {
+            this.alunoRepository.delete(id);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+    }
+    
+    @RequestMapping(value = "/aluno",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Aluno adicionar(@RequestBody Aluno aluno) {
+        return this.alunoRepository.save(aluno);
+    }
+    
+    @RequestMapping(value = "/aluno/{id}",
+            method = RequestMethod.PUT)
+    public HttpStatus atualizar(@RequestBody Aluno aluno, @PathVariable Long id) {
+        try {
+            aluno.setId(id);
+            this.alunoRepository.save(aluno);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+    }
+    /*
 	@RequestMapping(value="/aluno", 
 			method=RequestMethod.GET)
 	public void listarPorId(Long id){
 		this.alunoRepository.findOne(id);
 	}
-	@RequestMapping(value="/aluno", 
-			method=RequestMethod.PUT)
-	public void atualizar(Aluno aluno){
-		this.alunoRepository.save(aluno);
+	
 	}*/
 }
