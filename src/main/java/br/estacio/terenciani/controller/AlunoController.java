@@ -51,7 +51,7 @@ public class AlunoController {
     
     @RequestMapping(value = "/aluno/{id}",
             method = RequestMethod.PUT)
-    public HttpStatus atualizar(@RequestBody Aluno aluno, @PathVariable Long id) {
+    public @ResponseBody HttpStatus atualizar(@RequestBody Aluno aluno, @PathVariable Long id) {
         try {
             aluno.setId(id);
             this.alunoRepository.save(aluno);
@@ -60,12 +60,12 @@ public class AlunoController {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
     }
-    /*
-	@RequestMapping(value="/aluno", 
+   
+	@RequestMapping(value="/aluno/{id}", 
 			method=RequestMethod.GET)
-	public void listarPorId(Long id){
-		this.alunoRepository.findOne(id);
+	public @ResponseBody Aluno listarPorId(@PathVariable Long id){
+		return (Aluno) this.alunoRepository.findOne(id);
 	}
 	
-	}*/
+	
 }
